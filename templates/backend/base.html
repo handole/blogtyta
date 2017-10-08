@@ -1,0 +1,98 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block head_title %}Administrator{% endblock head_title %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+    {% block style %}{% endblock style %}
+</head>
+<body>
+ <div id="wrapper">
+  <!-- Navigation -->
+    {% include "backend/nav.html" %}
+
+   <div id="page-content-wrapper">
+    {% block content %}
+
+    {% endblock content %}
+   </div>
+ </div>
+  <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'vendor/popper/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js'></script>
+
+    <!-- Menu Toggle Script -->
+    <script type="text/javascript">
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    $(document).ready(function(){
+        $(".content-markdown").each(function(){
+            var content = $(this).text()
+            var markedContent = marked(content)
+            $(this).html(markedContent)
+          })
+        $(".post-detail-item img").each(function(){
+            $(this).addClass("img-responsive");
+          })
+
+        // preview-title
+        var titleInput = $("#id_title");
+
+        function setTitle(value) {
+          $("#preview-title").text(value)
+        }
+        setTitle(titleInput.val())
+
+        titleInput.keyup(function(){
+          var newContent = $(this).val()
+          setTitle(newContent)
+        })
+
+
+        // $("#preview-content").html(marked(contentItem.val()))
+        var contentInput = $("#id_content");
+
+        function setContent(value){
+          var markedContent = marked(value)
+          $("#preview-content").html(markedContent)
+          $("#preview-content img").each(function(){
+            $(this).addClass("img-responsive")
+          })
+        }
+        setContent(contentInput.val())
+
+        contentInput.keyup(function(){
+          var newContent = $(this).val()
+          setContent(newContent)
+        })
+
+        $(".comment-reply-btn").click(function(event){
+          event.preventDefault();
+          $(this).parent().next(".comment-reply").fadeToggle()
+        })
+
+    })
+
+    </script>
+
+
+</body>
+</html>

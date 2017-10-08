@@ -1,0 +1,72 @@
+{% extends "backend/base.html" %}
+{% load static %}
+
+{% block title %} {% endblock title %}
+
+{% block content %}
+<script type="text/javascript">
+  $(document).ready(function() {
+  $('[data-toggle=offcanvas]').click(function() {
+    $('.row-offcanvas').toggleClass('active');
+  });
+});
+</script>
+
+
+<div class="row-offcanvas row-offcanvas-left">
+  <div id="sidebar" class="sidebar-offcanvas vertical-menu">
+      <div class="col-md-12">
+ 
+        <a class="navbar-brand">Dashboard</a>
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active"><a href="/backend/">Pots List</a></li>
+          <li><a href="/backend/create">Create Post</a></li>
+          <li><a href="#">Update Post</a></li>
+          <li><a href="#">Delete Post</a></li>
+
+        </ul>
+      </div>
+  </div>
+  <div id="main">
+    <div class="col-md-12">
+
+      <table class="table">
+          <thead class="thead-inverse">
+          <tr>
+              <th>Type</th>
+              <th>Slug</th>
+              <th>Image</th>
+              <th>Content</th>
+              <th>Publish</th>
+          </tr>
+          </thead>
+          <tbody>
+           <p class="visibke-xs">
+           {% for post in posts %}
+            <tr>
+              <td>
+                  <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+              </td>
+              <td>
+                  <h6>{{ post.slug }}</h6>
+              </td>
+              <td>
+                  <h6>{{ post.image }}</h6>
+              </td>
+              <td>
+                  <h6>{{ post.content|truncatechars:40 }}</h6>
+              </td>
+              <td>
+                  <h6>{{ post.publish }}</h6>
+              </td>
+            </tr>
+           {% endfor %}
+         </p>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

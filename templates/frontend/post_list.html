@@ -1,0 +1,51 @@
+{% extends "frontend/base.html" %}
+{% block content %}
+
+ <!-- Page Content -->
+
+
+    <!-- Portfolio Section -->
+<br/>
+
+    <hr/>
+   <div class="row">
+      {% for obj in object_list %}
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+          	{% if obj.image %}
+            <a href="{{ obj.get_absolute_url }}"><img class="card-img-top" src="{{ obj.image.url }}" alt=""></a>
+            {% endif %}
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
+              </h4>
+              <p class="card-text">{{ obj.content }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+   </div>
+
+
+ <!-- pagination -->
+
+
+	<div class="pager">
+	    <span class="step-links">
+	        {% if object_list.has_previous %}
+	            <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+	        </span>
+
+	        {% if object_list.has_next %}
+	            <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+	        {% endif %}
+	    </span>
+	</div>
+
+
+
+{% endblock content %}
